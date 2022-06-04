@@ -5,7 +5,7 @@ import lab2.ColoredShape2d
 import lab2.Shape2d
 
 class ShapeCollector<T: ColoredShape2d> {
-    val listShape: MutableList<T> = mutableListOf()
+    var listShape: MutableList<T> = mutableListOf()
 
     fun addShape(Shape: T) {
         listShape.add(Shape)

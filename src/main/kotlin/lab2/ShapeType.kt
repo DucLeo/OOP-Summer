@@ -2,7 +2,9 @@ package lab2
 
 import kotlin.math.PI
 import kotlin.math.sqrt
+import kotlinx.serialization.*
 
+@Serializable
 data class Circle(
     val r: Double,
     override val borderColor: Color,
@@ -21,6 +23,7 @@ data class Circle(
     }
 }
 
+@Serializable
 data class Square(
     val a: Double,
     override val borderColor: Color,
@@ -39,6 +42,7 @@ data class Square(
     }
 }
 
+@Serializable
 data class Rectangle(
     val a: Double, val b: Double,
     override val borderColor: Color,
@@ -60,6 +64,7 @@ data class Rectangle(
     }
 }
 
+@Serializable
 data class Triangle(
     val a: Double, val b: Double, val c: Double,
     override val borderColor: Color,
