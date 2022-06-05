@@ -1,4 +1,4 @@
-package lab2
+package `lab2,5,6`
 
 import kotlinx.serialization.*
 

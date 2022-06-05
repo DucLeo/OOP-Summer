@@ -1,6 +1,5 @@
-package lab6
+package `lab2,5,6`
 
-import lab2.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import kotlinx.serialization.modules.*

@@ -1,13 +1,13 @@
-package lab2
+package `lab2,5,6`
 
-class ShapeCollector {
-    val listShape: MutableList<ColoredShape2d> = mutableListOf()
+class ShapeCollector<T: ColoredShape2d> {
+    public var listShape: MutableList<T> = mutableListOf()
 
-    fun addShape(Shape: ColoredShape2d) {
+    fun addShape(Shape: T) {
         listShape.add(Shape)
     }
 
-    fun smallestShape(): Shape2d? {
+    fun smallestShape(): T? {
         return if (listShape.isEmpty()) {
             null
         } else {
@@ -21,7 +21,7 @@ class ShapeCollector {
         }
     }
 
-    fun largestShape(): Shape2d? {
+    fun largestShape(): T? {
         return if (listShape.isEmpty()) {
             null
         } else {
@@ -46,8 +46,8 @@ class ShapeCollector {
         }
     }
 
-    fun shapeBorderColor(Color: Color): List<ColoredShape2d> {
-        val searchList: MutableList<ColoredShape2d> = mutableListOf()
+    fun shapeBorderColor(Color: Color): List<T> {
+        val searchList: MutableList<T> = mutableListOf()
         if (listShape.isNotEmpty()) {
             for (temp in listShape) {
                 if (temp.borderColor == Color)
@@ -57,8 +57,8 @@ class ShapeCollector {
         return searchList
     }
 
-    fun shapeFillColor(Color: Color): List<ColoredShape2d> {
-        val searchList: MutableList<ColoredShape2d> = mutableListOf()
+    fun shapeFillColor(Color: Color): List<T> {
+        val searchList: MutableList<T> = mutableListOf()
         if (listShape.isNotEmpty()) {
             for (temp in listShape) {
                 if (temp.fillColor == Color)
@@ -68,7 +68,7 @@ class ShapeCollector {
         return searchList
     }
 
-    fun allStoredShapes(): List<ColoredShape2d> {
+    fun allStoredShapes(): List<T> {
         return listShape.toList()
     }
 
@@ -76,10 +76,10 @@ class ShapeCollector {
         return listShape.size
     }
 
-    fun getShapesGroupedByBorderColor(): Map<Color, List<ColoredShape2d>> {
+    fun getShapesGroupedByBorderColor(): Map<Color, List<T>> {
         if (listShape.isEmpty()) throw IllegalArgumentException("Collector shapes is empty!")
         else {
-            val map = mutableMapOf<Color, List<ColoredShape2d>>()
+            val map = mutableMapOf<Color, List<T>>()
             for (shape in listShape) {
                 map[shape.borderColor] = shapeBorderColor(shape.borderColor)
             }
@@ -87,10 +87,10 @@ class ShapeCollector {
         }
     }
 
-    fun getShapesGroupedByFillColor(): Map<Color, List<ColoredShape2d>> {
+    fun getShapesGroupedByFillColor(): Map<Color, List<T>> {
         if (listShape.isEmpty()) throw IllegalArgumentException("Collector shapes is empty!")
         else {
-            val map = mutableMapOf<Color, List<ColoredShape2d>>()
+            val map = mutableMapOf<Color, List<T>>()
             for (shape in listShape) {
                 map[shape.fillColor] = shapeFillColor(shape.fillColor)
             }
@@ -98,14 +98,22 @@ class ShapeCollector {
         }
     }
 
-    inline fun <reified T> shapesByType(): List<ColoredShape2d> {
-        val newList = mutableListOf<ColoredShape2d>()
+    inline fun <reified Type> shapesByType(): List<Type> {
+        val newList = mutableListOf<Type>()
         if (listShape.isNotEmpty()) {
-            for (Shape in listShape) {
-                if (Shape is T)
-                    newList.add(Shape)
+            for (shape in listShape) {
+                if (shape is Type)
+                    newList.add(shape)
             }
         }
         return newList
+    }
+
+    fun addAll(shapes: List<T>) {
+        listShape += shapes
+    }
+
+    fun getSorted(comparator: Comparator<in T>): List<T> {
+        return listShape.sortedWith(comparator)
     }
 }

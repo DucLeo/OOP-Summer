@@ -1,11 +1,9 @@
-import lab2.*
-import lab5.ShapeCollector
-
+import `lab2,5,6`.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
 import kotlin.math.PI
-/*
+
 val Circle1: Circle = Circle(5.0, Black, White)
 val Circle2: Circle = Circle(10.0, Black, Yellow)
 val Square1 = Square(5.0, Green, Yellow)
@@ -14,8 +12,8 @@ val Rectangle1: Rectangle = Rectangle(5.0, 10.0, Gray, Red)
 val Rectangle2: Rectangle = Rectangle(10.0, 5.0, Pink, White)
 val Triangle1: Triangle = Triangle(3.0, 4.0, 5.0, Violet, Blue)
 val Triangle2: Triangle = Triangle(6.0, 8.0, 10.0, Orange, Green)
-*/
-internal class ShapeCollectorLab5Test {
+
+internal class ShapeCollectorTest {
     @Test
     fun testAddShape() {
         val collector = ShapeCollector<ColoredShape2d>()
@@ -164,14 +162,15 @@ internal class ShapeCollectorLab5Test {
     @Test
     fun testAddAll(){
         val collector = ShapeCollector<ColoredShape2d>()
-        val otherCollector = ShapeCollector<ColoredShape2d>()
-
         collector.addShape(Circle1)
         collector.addShape(Square1)
-        otherCollector.addShape(Rectangle2)
-        otherCollector.addShape(Triangle2)
 
-        collector.addAll(otherCollector)
+        val otherShapes = listOf(
+            Rectangle2,
+            Triangle2
+        )
+
+        collector.addAll(otherShapes)
         assertEquals(collector.allStoredShapes(), listOf(Circle1, Square1, Rectangle2, Triangle2))
     }
 
@@ -185,5 +184,22 @@ internal class ShapeCollectorLab5Test {
         collector.addShape(Square2)
 
         assertEquals(collector.getSorted(compareBy { it.calcArea() }), listOf(Square1, Circle1, Square2, Circle2))
+    }
+
+    @Test
+    fun testSerialization() {
+        val collector = ShapeCollector<ColoredShape2d>()
+        collector.addShape(Circle1)
+        collector.addShape(Square2)
+        val expected = "[{\"type\":\"lab2,5,6.Circle\",\"r\":5.0,\"borderColor\":{\"red\":0.0,\"green\":0.0,\"blue\":0.0,\"opacity\":0.0},\"fillColor\":{\"red\":255.0,\"green\":255.0,\"blue\":255.0,\"opacity\":2.0}},{\"type\":\"lab2,5,6.Square\",\"a\":10.0,\"borderColor\":{\"red\":255.0,\"green\":165.0,\"blue\":0.0,\"opacity\":1.0},\"fillColor\":{\"red\":0.0,\"green\":0.0,\"blue\":255.0,\"opacity\":1.5}}]"
+        assertEquals(JsonSerialization.serialization(collector.listShape), expected)
+    }
+
+    @Test
+    fun testDeserialization() {
+        val stringToDecode = "[{\"type\":\"lab2,5,6.Circle\",\"r\":5.0,\"borderColor\":{\"red\":0.0,\"green\":0.0,\"blue\":0.0,\"opacity\":0.0},\"fillColor\":{\"red\":255.0,\"green\":255.0,\"blue\":255.0,\"opacity\":2.0}},{\"type\":\"lab2,5,6.Square\",\"a\":10.0,\"borderColor\":{\"red\":255.0,\"green\":165.0,\"blue\":0.0,\"opacity\":1.0},\"fillColor\":{\"red\":0.0,\"green\":0.0,\"blue\":255.0,\"opacity\":1.5}}]"
+        val listShape = JsonSerialization.deserialization(stringToDecode)
+        assertEquals(listShape[0], Circle(5.0, Black, White))
+        assertEquals(listShape[1], Square(10.0, Orange, Blue))
     }
 }

@@ -1,10 +1,6 @@
-package lab6
-
-import lab2.*
-import lab5.ShapeCollector
+package `lab2,5,6`
 
 fun main() {
-
     val shapeCollector = ShapeCollector<ColoredShape2d>()
 
     shapeCollector.addShape(Circle(5.0, Blue, Red))
@@ -39,13 +35,13 @@ fun main() {
     println("\nAll circle in collector:")
     for(temp in shapeCollector.shapesByType<Circle>()) println("$temp")
 
-    val otherShapeCollector = ShapeCollector<ColoredShape2d>()
-    otherShapeCollector.addShape(Triangle(6.0, 8.0, 10.0, Gray, Orange))
-    otherShapeCollector.addShape(Square(10.0, White, Green))
-    otherShapeCollector.addShape(Circle(6.0, Red, Yellow))
-    otherShapeCollector.addShape(Rectangle(7.0, 2.0, Violet, Pink))
-
-    shapeCollector.addAll(otherShapeCollector)
+    val otherShapes = listOf(
+        Triangle(6.0, 8.0, 10.0, Gray, Orange),
+        Square(10.0, White, Green),
+        Circle(6.0, Red, Yellow),
+        Rectangle(7.0, 2.0, Violet, Pink)
+    )
+    shapeCollector.addAll(otherShapes)
 
     println("\nAfter adding there are ${shapeCollector.numberShapes()} shapes in collection:")
     for(temp in shapeCollector.allStoredShapes()) println("$temp")
@@ -58,5 +54,4 @@ fun main() {
     newShapeCollector.addShape(Square(29.0, Blue, Red))
     newShapeCollector.addShape(Triangle(6.0, 8.0,10.0, Blue, Green))
     file.outputToFile(newShapeCollector.listShape, "file2")
-
 }
