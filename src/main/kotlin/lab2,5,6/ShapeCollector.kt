@@ -1,7 +1,7 @@
 package `lab2,5,6`
 
 class ShapeCollector<T: ColoredShape2d> {
-    public var listShape: MutableList<T> = mutableListOf()
+    var listShape: MutableList<T> = mutableListOf()
 
     fun addShape(Shape: T) {
         listShape.add(Shape)
